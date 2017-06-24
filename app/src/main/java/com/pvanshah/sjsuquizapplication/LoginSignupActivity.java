@@ -1,6 +1,7 @@
 package com.pvanshah.sjsuquizapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -30,7 +31,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class LoginSignupActivity extends AppCompatActivity {
 
@@ -131,7 +139,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                     login.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String useremail = email.getText().toString();
+                            final String useremail = email.getText().toString();
                             String userpassword = password.getText().toString();
 
                             if(!useremail.equals("") && !userpassword.equals(""))
@@ -145,7 +153,50 @@ public class LoginSignupActivity extends AppCompatActivity {
                                                     Log.d("firebase", "Sign in success");
                                                     FirebaseUser user = mAuth.getCurrentUser();
                                                     Toast.makeText(getContext(), "Login successful", Toast.LENGTH_SHORT).show();
-                                                    //updateUI(user);
+
+                                                    DatabaseReference applicationUsers = FirebaseConfiguration.getApplicationUsers();
+
+                                                    //Check user role
+                                                    Query mQuery = applicationUsers.orderByChild("email").equalTo(useremail);
+                                                    mQuery.addChildEventListener(new ChildEventListener() {
+                                                        @Override
+                                                        public void onChildAdded(DataSnapshot dataSnapshot,  String s) {
+                                                            HashMap ob = (HashMap) dataSnapshot.getValue();
+                                                            String role = (String) ob.get("role");
+
+                                                            if(role.equals("Professor"))
+                                                            {
+                                                                Intent professorIntent = new Intent(getActivity(), ProfessorHomeActivity.class);
+                                                                getActivity().finish(); //to remove login from activity stack of back button
+                                                                startActivity(professorIntent);
+                                                            }
+                                                            else
+                                                            {
+
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                                        }
+
+                                                        @Override
+                                                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                                        }
+
+                                                        @Override
+                                                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+
                                                 } else {
                                                     // If sign in fails, display a message to the user.
                                                     Log.w("firebase", "signInWithEmail:failure", task.getException());

@@ -19,7 +19,7 @@ public class FirebaseConfiguration {
     private static FirebaseAuth mAuth;
 
     public void configureFirebase(){
-        //Firebase configuration
+        //Firebase configuration with all elements
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseRoot = firebaseDatabase.getReference();
         quizData = databaseRoot.child("QuizData");

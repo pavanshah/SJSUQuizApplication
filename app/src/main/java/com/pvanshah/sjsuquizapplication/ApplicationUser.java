@@ -13,6 +13,7 @@ public class ApplicationUser {
     private String lastname;
     private String email;
     private String userId;
+    private String role;
 
     public ApplicationUser() {
 
@@ -23,6 +24,7 @@ public class ApplicationUser {
         this.lastname = lastname;
         this.email = email;
         this.userId = userId;
+        this.role = "Student";
     }
 
     public String getFirstname() {
