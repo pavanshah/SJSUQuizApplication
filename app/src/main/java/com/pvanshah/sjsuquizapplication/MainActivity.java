@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
 
                 Intent intent = new Intent(MainActivity.this,LoginSignupActivity.class);
+                MainActivity.this.finish(); //to remove mainactivity from activity stack of back button
                 startActivity(intent);
 
             }

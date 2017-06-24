@@ -12,4 +12,8 @@
     <string name="signin">Sign In</string>
     <string name="error_incorrect_email">Incorrect Email Id Format</string>
     <string name="error_weak_password">Password must be longer than 6 digits</string>
+    <string name="title_activity_professor_home">ProfessorHomeActivity</string>
+    <string name="title_class">My Class</string>
+    <string name="title_dashboard">Analytics Dashboard</string>
+    <string name="title_quiz">Quizzes</string>
 </resources>
