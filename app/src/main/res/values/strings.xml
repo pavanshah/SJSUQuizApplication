@@ -16,4 +16,5 @@
     <string name="title_class">My Class</string>
     <string name="title_dashboard">Analytics Dashboard</string>
     <string name="title_quiz">Quizzes</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
