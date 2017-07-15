@@ -25,6 +25,7 @@
         <activity
             android:name=".ProfessorHomeActivity"
             android:label="@string/title_activity_professor_home"></activity>
+        <activity android:name=".LoginActivity"/>
     </application>
 
 </manifest>
