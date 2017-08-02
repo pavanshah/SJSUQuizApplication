@@ -15,6 +15,7 @@ public class FirebaseConfiguration {
     private static FirebaseDatabase firebaseDatabase;
     private static DatabaseReference databaseRoot;
     private static DatabaseReference quizData;
+    private static DatabaseReference questionsData;
     private static DatabaseReference applicationUsers;
     private static FirebaseAuth mAuth;
 
@@ -22,7 +23,8 @@ public class FirebaseConfiguration {
         //Firebase configuration with all elements
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseRoot = firebaseDatabase.getReference();
-        quizData = databaseRoot.child("QuizData");
+        quizData = databaseRoot.child("Quizzes");
+        questionsData = databaseRoot.child("Questions");
         applicationUsers = databaseRoot.child("ApplicationUsers");
         mAuth = FirebaseAuth.getInstance();
     }
@@ -41,6 +43,10 @@ public class FirebaseConfiguration {
 
     public static DatabaseReference getQuizData() {
         return quizData;
+    }
+
+    public static DatabaseReference getQuestionsData() {
+        return questionsData;
     }
 
     public static FirebaseAuth getmAuth() {return mAuth;}

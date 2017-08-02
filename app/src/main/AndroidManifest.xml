@@ -24,8 +24,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProfessorHomeActivity"
-            android:label="@string/title_activity_professor_home"></activity>
-        <activity android:name=".LoginActivity"/>
+            android:label="@string/title_activity_professor_home" />
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".CreateQuiz"
+            android:label="@string/title_activity_create_quiz"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
