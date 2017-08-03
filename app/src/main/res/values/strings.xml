@@ -17,4 +17,15 @@
     <string name="title_dashboard">Analytics Dashboard</string>
     <string name="title_quiz">Quizzes</string>
     <string name="sign_out">Sign Out</string>
+    <string name="sure">Are you sure?</string>
+    <string name="quit_quiz">Do you really want to quit this quiz? Your progress will not be saved.</string>
+    <string name="quit">Quit</string>
+    <string name="no">No</string>
+    <string name="submit">Submit</string>
+    <string name="attempt_all">You did not attempt all the questions. Do you wish to continue ?</string>
+    <string name="submit_ask">Do you want to submit?</string>
+    <string name="name">Name</string>
+    <string name="login_activity">Login</string>
+    <string name="login_txt">Welcome to Quiz application.\nYou can access available quizzes here\nPlease login with your\nSJSU Email ID</string>
+    <string name="account">Account</string>
 </resources>
