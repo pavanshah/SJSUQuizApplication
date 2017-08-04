@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.pvanshah.sjsuquizapplication.student.util.FontsOverride;
+
 /**
  * Created by avinash on 7/17/17.
  */
@@ -37,6 +39,10 @@ public class App extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        FontsOverride.setDefaultFont(this, "DEFAULT", "helvetica_neue_light.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "helvetica_neue_light.ttf");
+        FontsOverride.setDefaultFont(this, "SERIF", "helvetica_neue_light.ttf");
+        FontsOverride.setDefaultFont(this, "SANS_SERIF", "helvetica_neue_light.ttf");
 
     }
 
