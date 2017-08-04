@@ -52,7 +52,6 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getResources().getString(R.string.title_quiz));
         NetworkStateListener.registerNetworkState(this);
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
@@ -112,8 +111,9 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.getValue() != null) {
-                                    List<ResponseObject> responseObjects = collectResponseObjects((Map<String, Object>) dataSnapshot.getValue());
-                                    if (responseObjects != null) {
+                                    List<ResponseObject> responseObjects = collectResponseObjects((Map<String, Object>) dataSnapshot.getValue(), ((Quiz) quizList.get(position)).getId());
+
+                                    if (responseObjects != null && responseObjects.size() > 0) {
                                         int score = 0;
                                         for (int i = 0; i < responseObjects.size(); i++) {
                                             int scored = Integer.parseInt(responseObjects.get(i).getTotal());
@@ -123,7 +123,7 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
                                         }
                                         MaterialDialog dialog = new MaterialDialog.Builder(AvailableQuizesActivity.this)
                                                 .title(R.string.score)
-                                                .content(getResources().getString(R.string.submitted) + score + "\n" + getResources().getString(R.string.take_again))
+                                                .content(getResources().getString(R.string.submitted) + " " +score + "\n" + getResources().getString(R.string.take_again))
                                                 .positiveText(R.string.yes)
                                                 .negativeText(R.string.no)
                                                 .contentColor(Color.GRAY)
@@ -146,6 +146,8 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
                                                     }
                                                 })
                                                 .show();
+                                    } else {
+                                        startQuiz(((Quiz) quizList.get(position)).getId(), ((Quiz) quizList.get(position)).getTitle());
                                     }
                                 } else {
                                     startQuiz(((Quiz) quizList.get(position)).getId(), ((Quiz) quizList.get(position)).getTitle());
@@ -161,14 +163,16 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
         });
     }
 
-    private List<ResponseObject> collectResponseObjects(Map<String, Object> dataSnapshotValue) {
+    private List<ResponseObject> collectResponseObjects(Map<String, Object> dataSnapshotValue, String id) {
         List<ResponseObject> responseObjectList = new ArrayList<>();
         ResponseObject responseObject;
         for (Map.Entry<String, Object> entry : dataSnapshotValue.entrySet()) {
             Map singleObject = (Map) entry.getValue();
             String json = new Gson().toJson(singleObject);
             responseObject = new Gson().fromJson(json, ResponseObject.class);
-            responseObjectList.add(responseObject);
+            if (id.equals(responseObject.getQuizID())) {
+                responseObjectList.add(responseObject);
+            }
         }
         return responseObjectList;
     }

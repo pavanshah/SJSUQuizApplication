@@ -156,7 +156,7 @@ public class QuizActivity extends AppCompatActivity {
 
         MaterialDialog dialog = new MaterialDialog.Builder(QuizActivity.this)
                 .title(R.string.submit)
-                .content(R.string.submitted_success)
+                .content(getResources().getString(R.string.your_score) + " "+total+" "+ getResources().getString(R.string.in_this_quiz))
                 .negativeText(R.string.ok)
                 .contentColor(Color.GRAY)
                 .backgroundColorRes(android.R.color.white)

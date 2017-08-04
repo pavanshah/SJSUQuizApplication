@@ -31,9 +31,11 @@
     <string name="no_quizzes">No Quizzes available at this time. Please check back later</string>
     <string name="no_questions">No Questions available. Please check back later</string>
     <string name="score">Score</string>
-    <string name="submitted">You have already take this Quiz. Your Score in this Quiz is :</string>
+    <string name="submitted">You have already taken this Quiz. Your Score in this Quiz is :</string>
     <string name="take_again">Do you wish to take this Quiz again ?</string>
     <string name="yes">YES</string>
     <string name="submitted_success">Your responses have been submitted successfully. Your result will be available soon. Please check back later for your score.</string>
     <string name="ok">OK</string>
+    <string name="your_score">You have scored :</string>
+    <string name="in_this_quiz">in this quiz.</string>
 </resources>
