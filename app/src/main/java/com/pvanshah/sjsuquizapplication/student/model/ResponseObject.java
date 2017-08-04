@@ -1,6 +1,6 @@
 package com.pvanshah.sjsuquizapplication.student.model;
 
-import com.google.android.gms.common.api.Response;
+import java.util.List;
 
 /**
  * Created by avinash on 7/17/17.
@@ -10,7 +10,7 @@ public class ResponseObject {
 
     private String total;
 
-    private Response[] response;
+    private List<Response> response;
 
     private String username;
 
@@ -22,14 +22,6 @@ public class ResponseObject {
 
     public void setTotal(String total) {
         this.total = total;
-    }
-
-    public Response[] getResponse() {
-        return response;
-    }
-
-    public void setResponse(Response[] response) {
-        this.response = response;
     }
 
     public String getUsername() {
@@ -46,5 +38,13 @@ public class ResponseObject {
 
     public void setQuizID(String quizID) {
         this.quizID = quizID;
+    }
+
+    public List<Response> getResponse() {
+        return response;
+    }
+
+    public void setResponse(List<Response> response) {
+        this.response = response;
     }
 }

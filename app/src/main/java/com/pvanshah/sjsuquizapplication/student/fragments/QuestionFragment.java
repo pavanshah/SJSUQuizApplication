@@ -18,6 +18,7 @@ import com.pvanshah.sjsuquizapplication.student.model.Question;
 import com.pvanshah.sjsuquizapplication.student.model.Response;
 import com.pvanshah.sjsuquizapplication.student.util.Numerics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +41,11 @@ public class QuestionFragment extends Fragment {
         TextView questionTxt = view.findViewById(R.id.question);
         questionTxt.setText(question.getQuestion());
         RadioGroup optionsGroup = view.findViewById(R.id.options_group);
-        List<String> options = question.getOptions();
+        List<String> options = new ArrayList<>();
+        options.add(question.getOptions().getA());
+        options.add(question.getOptions().getB());
+        options.add(question.getOptions().getC());
+        options.add(question.getOptions().getD());
         final int len = options.size();
         final RadioButton[] rb = new RadioButton[len];
         for (int i = 0; i < len; i++) {
@@ -56,29 +61,31 @@ public class QuestionFragment extends Fragment {
                         List<Response> responses = ((QuizActivity) getActivity()).responseList;
                         if (responses.size() > 0) {
                             for (int k = 0; k < responses.size(); k++) {
-                                if (responses.get(k).getQuizId().equals(question.getQuizId()) && responses.get(k).getQuestionNumber().equals(question.getQuestionNumber())) {
-                                    responses.get(k).setAttemptedAnswer(j + "");
+                                if (responses.get(k).getQuestionNumber().equals(question.getQuestionNumber())) {
+                                    responses.get(k).setAttempted(getCharForNumber(j+1));
                                     return;
                                 }
                             }
                             Response response = new Response();
-                            response.setQuizId(question.getQuizId());
                             response.setQuestionNumber(question.getQuestionNumber());
-                            response.setActualAnswer(question.getAnswer());
-                            response.setAttemptedAnswer((j+1) + "");
+                            response.setCorrect(question.getAnswer());
+                            response.setAttempted(getCharForNumber(j+1));
                             ((QuizActivity) getActivity()).responseList.add(response);
                         } else {
                             Response response = new Response();
-                            response.setQuizId(question.getQuizId());
                             response.setQuestionNumber(question.getQuestionNumber());
-                            response.setActualAnswer(question.getAnswer());
-                            response.setAttemptedAnswer((j+1) + "");
+                            response.setCorrect(question.getAnswer());
+                            response.setAttempted(getCharForNumber(j+1));
                             ((QuizActivity) getActivity()).responseList.add(response);
                         }
                     }
                 }
             }
         });
+    }
+
+    private String getCharForNumber(int i) {
+        return i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
     }
 
     private void setStyleAndAddToGroup(RadioGroup optionsGroup, RadioButton rb, String text) {

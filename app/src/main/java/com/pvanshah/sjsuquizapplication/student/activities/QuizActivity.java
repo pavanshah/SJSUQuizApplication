@@ -13,15 +13,24 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.eftimoff.viewpagertransformers.ForegroundToBackgroundTransformer;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 import com.pvanshah.sjsuquizapplication.R;
+import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
 import com.pvanshah.sjsuquizapplication.student.adapters.QuizPagerAdapter;
 import com.pvanshah.sjsuquizapplication.student.model.Question;
 import com.pvanshah.sjsuquizapplication.student.model.Response;
+import com.pvanshah.sjsuquizapplication.student.model.ResponseObject;
 import com.pvanshah.sjsuquizapplication.student.util.Numerics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,25 +52,26 @@ public class QuizActivity extends AppCompatActivity {
     InkPageIndicator pagerIndicator;
 
     public List<Response> responseList = new ArrayList();
+    private String id;
 
     @OnClick(R.id.prev_btn)
-    void moveBack(){
-        if(quizPager!=null && quizPager.getCurrentItem() > 0){
-            quizPager.setCurrentItem(quizPager.getCurrentItem()-1,true);
+    void moveBack() {
+        if (quizPager != null && quizPager.getCurrentItem() > 0) {
+            quizPager.setCurrentItem(quizPager.getCurrentItem() - 1, true);
         }
     }
 
     @OnClick(R.id.next_btn)
-    void moveForward(){
-        if(quizPager!=null && quizPager.getCurrentItem() < quizPager.getAdapter().getCount()){
-            quizPager.setCurrentItem(quizPager.getCurrentItem()+1,true);
+    void moveForward() {
+        if (quizPager != null && quizPager.getCurrentItem() < quizPager.getAdapter().getCount()) {
+            quizPager.setCurrentItem(quizPager.getCurrentItem() + 1, true);
         }
     }
 
     @OnClick(R.id.submit)
     void submit() {
-        if(quizPager!=null && responseList != null) {
-            if(quizPager.getAdapter().getCount() > 0 && responseList.size() == quizPager.getAdapter().getCount()) {
+        if (quizPager != null && responseList != null) {
+            if (quizPager.getAdapter().getCount() > 0 && responseList.size() == quizPager.getAdapter().getCount()) {
                 MaterialDialog dialog = new MaterialDialog.Builder(QuizActivity.this)
                         .title(R.string.sure)
                         .content(R.string.submit_ask)
@@ -72,7 +82,7 @@ public class QuizActivity extends AppCompatActivity {
                         .positiveColorRes(R.color.colorAccent)
                         .negativeColorRes(R.color.colorAccent)
                         .autoDismiss(false)
-                        .onPositive(new MaterialDialog.SingleButtonCallback(){
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
 
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -98,7 +108,7 @@ public class QuizActivity extends AppCompatActivity {
                         .positiveColorRes(R.color.colorAccent)
                         .negativeColorRes(R.color.colorAccent)
                         .autoDismiss(false)
-                        .onPositive(new MaterialDialog.SingleButtonCallback(){
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
 
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -118,15 +128,48 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void callToSaveResponses(List<Response> responseList) {
-        String response="";
+        final DatabaseReference resultRef = FirebaseConfiguration.getResultRef();
         int total = 0;
-        for(Response response1 : responseList) {
-            response = response+response1.getActualAnswer()+"-"+response1.getAttemptedAnswer()+"\n";
-            if(response1.getAttemptedAnswer().equals(response1.getActualAnswer())) {
+        for (Response response1 : responseList) {
+            if (response1.getAttempted().equals(response1.getCorrect())) {
                 total = total + 1;
             }
         }
-        Toast.makeText(QuizActivity.this, response+"\n Total = "+total, Toast.LENGTH_LONG).show();
+        final ResponseObject responseObject = new ResponseObject();
+
+        if (!TextUtils.isEmpty(id)) {
+            responseObject.setQuizID(id);
+        } else {
+            if (getIntent() != null) {
+                responseObject.setQuizID(getIntent().getStringExtra(ID));
+            }
+        }
+
+        responseObject.setTotal(total + "");
+
+        final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        responseObject.setUsername(firebaseAuth.getCurrentUser().getEmail());
+
+        responseObject.setResponse(responseList);
+
+        resultRef.push().setValue(responseObject);
+
+        MaterialDialog dialog = new MaterialDialog.Builder(QuizActivity.this)
+                .title(R.string.submit)
+                .content(R.string.submitted_success)
+                .negativeText(R.string.ok)
+                .contentColor(Color.GRAY)
+                .backgroundColorRes(android.R.color.white)
+                .negativeColorRes(R.color.colorAccent)
+                .autoDismiss(false)
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -135,10 +178,12 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
+        firebaseConfiguration.configureFirebase();
         quizPager.setOffscreenPageLimit(Numerics.FIFTY);
 
         Intent intent = getIntent();
-        if(intent != null) {
+        if (intent != null) {
             startQuiz(intent);
         } else {
             finish();
@@ -153,102 +198,57 @@ public class QuizActivity extends AppCompatActivity {
 
 
     private void startQuiz(Intent intent) {
-        String id = intent.getStringExtra(ID);
+        id = intent.getStringExtra(ID);
         String title = intent.getStringExtra(TITLE);
-        if(!TextUtils.isEmpty(id) && !TextUtils.isEmpty(title)){
-            getQuizQuestions();
+        if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(title)) {
+            getQuizQuestions(id);
             getSupportActionBar().setTitle(title);
         } else {
             finish();
         }
     }
 
-    private void getQuizQuestions() {
-        //TODO: get quiz questions based on ID
+    private void getQuizQuestions(String id) {
+        DatabaseReference questionsRoot = FirebaseConfiguration.getQuestionsData();
 
-        setQuestionsToPager(getDummyQuestions());
+        questionsRoot.orderByChild("quizID").equalTo(id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Question> response = collectQuestions((Map<String, Object>) dataSnapshot.getValue());
+                if (response != null && response.size() > 0) {
+                    setQuestionsToPager(response);
+                } else {
+                    Toast.makeText(QuizActivity.this, R.string.no_questions, Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private List<Question> collectQuestions(Map<String, Object> questions) {
+        List<Question> questionsList = new ArrayList<>();
+        Question question;
+        for (Map.Entry<String, Object> entry : questions.entrySet()) {
+            Map singleQuestion = (Map) entry.getValue();
+            String json = new Gson().toJson(singleQuestion);
+            question = new Gson().fromJson(json, Question.class);
+            questionsList.add(question);
+        }
+        return questionsList;
     }
 
     private void setQuestionsToPager(List<Question> questions) {
-        final QuizPagerAdapter quizPagerAdapter= new QuizPagerAdapter(getSupportFragmentManager(), questions);
+        final QuizPagerAdapter quizPagerAdapter = new QuizPagerAdapter(getSupportFragmentManager(), questions);
         quizPager.setAdapter(quizPagerAdapter);
         pagerIndicator.setViewPager(quizPager);
         quizPager.setPageTransformer(true, new ForegroundToBackgroundTransformer());
         quizPager.setClipToPadding(false);
-        quizPager.setPadding(Numerics.TEN,0,Numerics.TEN,0);
+        quizPager.setPadding(Numerics.TEN, 0, Numerics.TEN, 0);
         quizPager.setPageMargin(Numerics.TEN);
-    }
-
-    private List<Question> getDummyQuestions() {
-        List<Question> questions = new ArrayList();
-
-        Question question = new Question();
-        question.setQuizId("aasdqgnoalsupamdoqnoiq123ro9inoaw");
-        question.setQuestionNumber("1");
-        question.setQuestion("Who is the Wife of Chandler?");
-        question.setOptions("Rachel");
-        question.setOptions("Monica");
-        question.setOptions("Ross");
-        question.setOptions("Phoebe");
-        question.setAnswer("2");
-        questions.add(question);
-
-        question = new Question();
-        question.setQuizId("aasdqgnoalsupamdoqnoiq123ro9inoaw");
-        question.setQuestionNumber("2");
-        question.setQuestion("Who is the Wife of Ross?");
-        question.setOptions("Chandler");
-        question.setOptions("Monica");
-        question.setOptions("Rachel");
-        question.setOptions("Joey");
-        question.setAnswer("3");
-        questions.add(question);
-
-        question = new Question();
-        question.setQuizId("aasdqgnoalsupamdoqnoiq123ro9inoaw");
-        question.setQuestionNumber("3");
-        question.setQuestion("Who is the Wife of Joey?");
-        question.setOptions("Monica");
-        question.setOptions("Ross");
-        question.setOptions("Phoebe");
-        question.setOptions("None");
-        question.setAnswer("4");
-        questions.add(question);
-
-        question = new Question();
-        question.setQuizId("aasdqgnoalsupamdoqnoiq123ro9inoaw");
-        question.setQuestionNumber("4");
-        question.setQuestion("Who is the Sister of Ross?");
-        question.setOptions("Rachel");
-        question.setOptions("Monica");
-        question.setOptions("Chanlder");
-        question.setOptions("Phoebe");
-        question.setAnswer("2");
-        questions.add(question);
-
-        question = new Question();
-        question.setQuizId("aasdqgnoalsupamdoqnoiq123ro9inoaw");
-        question.setQuestionNumber("5");
-        question.setQuestion("What is the name of Frank Jr.'s Daughter?");
-        question.setOptions("Rachel");
-        question.setOptions("Monica");
-        question.setOptions("Phoebe");
-        question.setOptions("Chanlder");
-        question.setAnswer("4");
-        questions.add(question);
-
-        question = new Question();
-        question.setQuizId("aasdqgnoalsupamdoqnoiq123ro9inoaw");
-        question.setQuestionNumber("6");
-        question.setQuestion("Who did not work at a coffee house / restaurant?");
-        question.setOptions("Rachel");
-        question.setOptions("Monica");
-        question.setOptions("Joey");
-        question.setOptions("Chandler");
-        question.setAnswer("4");
-        questions.add(question);
-
-        return questions;
     }
 
     @Override
@@ -275,7 +275,7 @@ public class QuizActivity extends AppCompatActivity {
                 .positiveColorRes(R.color.colorAccent)
                 .negativeColorRes(R.color.colorAccent)
                 .autoDismiss(false)
-                .onPositive(new MaterialDialog.SingleButtonCallback(){
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
 
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {

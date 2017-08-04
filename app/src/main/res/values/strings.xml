@@ -28,4 +28,12 @@
     <string name="login_activity">Login</string>
     <string name="login_txt">Welcome to Quiz application.\nYou can access available quizzes here\nPlease login with your\nSJSU Email ID</string>
     <string name="account">Account</string>
+    <string name="no_quizzes">No Quizzes available at this time. Please check back later</string>
+    <string name="no_questions">No Questions available. Please check back later</string>
+    <string name="score">Score</string>
+    <string name="submitted">You have already take this Quiz. Your Score in this Quiz is :</string>
+    <string name="take_again">Do you wish to take this Quiz again ?</string>
+    <string name="yes">YES</string>
+    <string name="submitted_success">Your responses have been submitted successfully. Your result will be available soon. Please check back later for your score.</string>
+    <string name="ok">OK</string>
 </resources>

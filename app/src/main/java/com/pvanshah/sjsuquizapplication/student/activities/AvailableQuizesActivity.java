@@ -1,7 +1,9 @@
 package com.pvanshah.sjsuquizapplication.student.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,17 +11,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.pvanshah.sjsuquizapplication.R;
+import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
 import com.pvanshah.sjsuquizapplication.student.adapters.QuizListAdapter;
 import com.pvanshah.sjsuquizapplication.student.base.AbstractBaseAdapter;
 import com.pvanshah.sjsuquizapplication.student.base.BaseAppCompatActivity;
 import com.pvanshah.sjsuquizapplication.student.model.Quiz;
+import com.pvanshah.sjsuquizapplication.student.model.ResponseObject;
 import com.pvanshah.sjsuquizapplication.student.network.NetworkStateChangeListener;
 import com.pvanshah.sjsuquizapplication.student.network.NetworkStateListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 
@@ -27,7 +41,7 @@ import butterknife.Bind;
  * Created by avinash on 7/17/17.
  */
 
-public class AvailableQuizesActivity extends BaseAppCompatActivity implements NetworkStateChangeListener{
+public class AvailableQuizesActivity extends BaseAppCompatActivity implements NetworkStateChangeListener {
 
     private boolean isDataFetched;
 
@@ -41,26 +55,45 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getResources().getString(R.string.title_quiz));
         NetworkStateListener.registerNetworkState(this);
+        FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
+        firebaseConfiguration.configureFirebase();
         callQuizzesService();
     }
 
     private void callQuizzesService() {
-        //TODO: get data for list of quizzes
+        DatabaseReference quizRoot = FirebaseConfiguration.getQuizData();
 
+        quizRoot.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<Quiz> response = collectQuizes((Map<String, Object>) dataSnapshot.getValue());
+                if (response != null && response.size() > 0) {
+                    setDataToList(response);
+                } else {
+                    Toast.makeText(AvailableQuizesActivity.this, R.string.no_quizzes, Toast.LENGTH_LONG).show();
+                }
+            }
 
-        setDataToList(getDummyQuizzes());
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
-    private List getDummyQuizzes() {
-        Quiz quiz = new Quiz();
-        quiz.setTitle("Fall Quiz");
-        quiz.setId("aasdqgnoalsupamdoqnoiq123ro9inoaw");
-        List<Quiz> quizList = new ArrayList();
-        quizList.add(quiz);
-        quiz = new Quiz();
-        quiz.setTitle("Fall Mid");
-        quiz.setId("lajjshnoalsupajdkqnoiq987ro9inpoi");
-        quizList.add(quiz);
+    private List<Quiz> collectQuizes(Map<String, Object> quizzes) {
+        List<Quiz> quizList = new ArrayList<>();
+        Quiz quiz;
+        //iterate through each quiz
+        for (Map.Entry<String, Object> entry : quizzes.entrySet()) {
+
+            //Get quiz map
+            Map singleQuiz = (Map) entry.getValue();
+            quiz = new Quiz();
+            quiz.setId((String) singleQuiz.get("quizID"));
+            quiz.setTitle((String) singleQuiz.get("quizTitle"));
+            quizList.add(quiz);
+        }
         return quizList;
     }
 
@@ -70,10 +103,74 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
         quizzes.setAdapter(adapter);
         quizzes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                startQuiz(((Quiz)quizList.get(position)).getId(), ((Quiz) quizList.get(position)).getTitle());
+            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
+                DatabaseReference resultRef = FirebaseConfiguration.getResultRef();
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                resultRef.orderByChild("username")
+                        .equalTo(firebaseAuth.getCurrentUser().getEmail())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.getValue() != null) {
+                                    List<ResponseObject> responseObjects = collectResponseObjects((Map<String, Object>) dataSnapshot.getValue());
+                                    if (responseObjects != null) {
+                                        int score = 0;
+                                        for (int i = 0; i < responseObjects.size(); i++) {
+                                            int scored = Integer.parseInt(responseObjects.get(i).getTotal());
+                                            if (scored > score) {
+                                                score = scored;
+                                            }
+                                        }
+                                        MaterialDialog dialog = new MaterialDialog.Builder(AvailableQuizesActivity.this)
+                                                .title(R.string.score)
+                                                .content(getResources().getString(R.string.submitted) + score + "\n" + getResources().getString(R.string.take_again))
+                                                .positiveText(R.string.yes)
+                                                .negativeText(R.string.no)
+                                                .contentColor(Color.GRAY)
+                                                .backgroundColorRes(android.R.color.white)
+                                                .positiveColorRes(R.color.colorAccent)
+                                                .negativeColorRes(R.color.colorAccent)
+                                                .autoDismiss(false)
+                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+
+                                                    @Override
+                                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                        startQuiz(((Quiz) quizList.get(position)).getId(), ((Quiz) quizList.get(position)).getTitle());
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                } else {
+                                    startQuiz(((Quiz) quizList.get(position)).getId(), ((Quiz) quizList.get(position)).getTitle());
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
             }
         });
+    }
+
+    private List<ResponseObject> collectResponseObjects(Map<String, Object> dataSnapshotValue) {
+        List<ResponseObject> responseObjectList = new ArrayList<>();
+        ResponseObject responseObject;
+        for (Map.Entry<String, Object> entry : dataSnapshotValue.entrySet()) {
+            Map singleObject = (Map) entry.getValue();
+            String json = new Gson().toJson(singleObject);
+            responseObject = new Gson().fromJson(json, ResponseObject.class);
+            responseObjectList.add(responseObject);
+        }
+        return responseObjectList;
     }
 
     private void startQuiz(String id, String title) {

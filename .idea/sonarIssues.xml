@@ -18,7 +18,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/FirebaseConfiguration.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/LoginActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/LoginSignupActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/MainActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/firebaseutils/FirebaseConfiguration.java">
           <value>
             <set />
           </value>
@@ -44,6 +64,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/student/activities/QuizActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/student/activities/SplashScreenActivity.java">
           <value>
             <set />
           </value>
@@ -78,6 +103,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/student/model/Options.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/student/model/Question.java">
           <value>
             <set />
@@ -89,6 +119,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/student/model/Response.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/student/model/ResponseObject.java">
           <value>
             <set />
           </value>
