@@ -8,6 +8,46 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../FareEsitmator/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../FareEsitmator/app/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../FareEsitmator/app/src/main/java/com/fareesitmator/activities/EstimatorActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../FareEsitmator/app/src/main/java/com/fareesitmator/adapters/DemoCollectionPagerAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../FareEsitmator/app/src/main/java/com/fareesitmator/adapters/UberAdapter.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../FareEsitmator/app/src/main/java/com/fareesitmator/services/rest/RestClient.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../FareEsitmator/app/src/main/res/layout/activity_estimator.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../FareEsitmator/app/src/main/res/layout/item_uber.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/build.gradle">
           <value>
             <set />
