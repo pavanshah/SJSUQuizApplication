@@ -12,7 +12,9 @@ public class ResponseObject {
 
     private List<Response> response;
 
-    private String username;
+    private String email;
+
+    private String name;
 
     private String quizID;
 
@@ -22,14 +24,6 @@ public class ResponseObject {
 
     public void setTotal(String total) {
         this.total = total;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getQuizID() {
@@ -46,5 +40,21 @@ public class ResponseObject {
 
     public void setResponse(List<Response> response) {
         this.response = response;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

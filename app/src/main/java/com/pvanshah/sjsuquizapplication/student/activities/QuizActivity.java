@@ -148,7 +148,8 @@ public class QuizActivity extends AppCompatActivity {
         responseObject.setTotal(total + "");
 
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        responseObject.setUsername(firebaseAuth.getCurrentUser().getEmail());
+        responseObject.setEmail(firebaseAuth.getCurrentUser().getEmail());
+        responseObject.setName(firebaseAuth.getCurrentUser().getDisplayName());
 
         responseObject.setResponse(responseList);
 
@@ -156,7 +157,7 @@ public class QuizActivity extends AppCompatActivity {
 
         MaterialDialog dialog = new MaterialDialog.Builder(QuizActivity.this)
                 .title(R.string.submit)
-                .content(getResources().getString(R.string.your_score) + " "+total+" "+ getResources().getString(R.string.in_this_quiz))
+                .content(getResources().getString(R.string.your_score) + " " + total + " " + getResources().getString(R.string.in_this_quiz))
                 .negativeText(R.string.ok)
                 .contentColor(Color.GRAY)
                 .backgroundColorRes(android.R.color.white)
