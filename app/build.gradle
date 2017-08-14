@@ -47,6 +47,6 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.4.5'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.eftimoff:android-viewpager-transformers:1.0.1@aar'
-
+    compile 'com.tbuonomo.randomlines:randomlines:1.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
