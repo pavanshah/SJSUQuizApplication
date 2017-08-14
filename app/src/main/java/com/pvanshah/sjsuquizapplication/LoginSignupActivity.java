@@ -79,23 +79,6 @@ public class LoginSignupActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login_signup, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -142,6 +125,11 @@ public class LoginSignupActivity extends AppCompatActivity {
                             final String useremail = email.getText().toString();
                             String userpassword = password.getText().toString();
 
+                            Intent professorIntent = new Intent(getActivity(), ProfessorHomeActivity.class);
+                            getActivity().finish(); //to remove login from activity stack of back button
+                            startActivity(professorIntent);
+
+                            /*
                             if(!useremail.equals("") && !userpassword.equals(""))
                             {
                                 mAuth.signInWithEmailAndPassword(useremail, userpassword)
@@ -211,6 +199,7 @@ public class LoginSignupActivity extends AppCompatActivity {
                             {
                                 Toast.makeText(getContext(), "Please enter your credentials", Toast.LENGTH_SHORT).show();
                             }
+                            */
 
 
                         }
