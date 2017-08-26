@@ -25,6 +25,11 @@
             android:name=".ProfessorHomeActivity"
             android:label="@string/title_activity_professor_home"/>
 
+        <activity
+            android:name=".CreateQuiz"
+            android:label="@string/title_activity_create_quiz"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity android:name=".student.activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

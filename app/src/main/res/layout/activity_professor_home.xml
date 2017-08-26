@@ -6,25 +6,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginTop="10dp"
     tools:context="com.pvanshah.sjsuquizapplication.ProfessorHomeActivity">
 
-    <FrameLayout
+    <TextView
+        android:id="@+id/tabTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="My Class"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        />
+
+    <RelativeLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="20dp"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/message"
+        <ListView
+            android:id="@+id/quizList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/title_class" />
+            android:layout_height="wrap_content">
+        </ListView>
 
-    </FrameLayout>
+        <ListView
+            android:id="@+id/studentList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </ListView>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addQuiz"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/plus"
+            app:elevation="4dp"
+            />
+
+
+    </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

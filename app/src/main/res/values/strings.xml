@@ -2,7 +2,7 @@
     <string name="app_name">SJSUQuizApplication</string>
     <string name="title_activity_login_signup">LoginSignupActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="section_format">Question Number: %1$d</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">Email ID</string>
@@ -17,6 +17,7 @@
     <string name="title_dashboard">Analytics Dashboard</string>
     <string name="title_quiz">Quizzes</string>
     <string name="sign_out">Sign Out</string>
+    <string name="title_activity_create_quiz">CreateQuiz</string>
     <string name="sure">Are you sure?</string>
     <string name="quit_quiz">Do you really want to quit this quiz? Your progress will not be saved.</string>
     <string name="quit">Quit</string>
