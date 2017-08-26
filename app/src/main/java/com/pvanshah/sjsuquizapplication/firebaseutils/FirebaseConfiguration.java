@@ -1,13 +1,11 @@
-package com.pvanshah.sjsuquizapplication;
-
-import android.util.Log;
+package com.pvanshah.sjsuquizapplication.firebaseutils;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * Created by Pavan Shah on 6/15/2017.
+ * Created by avinash on 7/02/2017.
  */
 
 public class FirebaseConfiguration {
@@ -17,6 +15,7 @@ public class FirebaseConfiguration {
     private static DatabaseReference quizData;
     private static DatabaseReference questionsData;
     private static DatabaseReference applicationUsers;
+    private static DatabaseReference resultRef;
     private static FirebaseAuth mAuth;
 
     public void configureFirebase(){
@@ -26,6 +25,7 @@ public class FirebaseConfiguration {
         quizData = databaseRoot.child("Quizzes");
         questionsData = databaseRoot.child("Questions");
         applicationUsers = databaseRoot.child("ApplicationUsers");
+        resultRef = databaseRoot.child("result");
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -50,4 +50,8 @@ public class FirebaseConfiguration {
     }
 
     public static FirebaseAuth getmAuth() {return mAuth;}
+
+    public static DatabaseReference getResultRef() {
+        return resultRef;
+    }
 }
