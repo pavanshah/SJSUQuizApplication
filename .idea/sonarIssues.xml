@@ -58,6 +58,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/CreateQuiz.java">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/FirebaseConfiguration.java">
           <value>
             <set />
@@ -74,6 +79,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/MainActivity.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/ProfessorHomeActivity.java">
           <value>
             <set />
           </value>
@@ -139,6 +149,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/student/fragments/QuestionFragment.java">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/pvanshah/sjsuquizapplication/student/model/AppUser.java">
           <value>
             <set />
           </value>
