@@ -17,7 +17,12 @@ public class FirebaseConfiguration {
     private static DatabaseReference questionsData;
     private static DatabaseReference applicationUsers;
     private static DatabaseReference resultRef;
+    private static DatabaseReference userRef;
     private static FirebaseAuth mAuth;
+
+    public static DatabaseReference getUserRef() {
+        return userRef;
+    }
 
     public void configureFirebase(){
         //Firebase configuration with all elements
@@ -28,6 +33,7 @@ public class FirebaseConfiguration {
         questionsData = databaseRoot.child("Questions");
         applicationUsers = databaseRoot.child("ApplicationUsers");
         resultRef = databaseRoot.child("result");
+        userRef = databaseRoot.child("users");
         mAuth = FirebaseAuth.getInstance();
     }
 

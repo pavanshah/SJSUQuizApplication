@@ -11,12 +11,22 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.pvanshah.sjsuquizapplication.ProfessorHomeActivity;
 import com.pvanshah.sjsuquizapplication.R;
+import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
 import com.pvanshah.sjsuquizapplication.student.base.BaseAppCompatActivity;
+import com.pvanshah.sjsuquizapplication.student.model.AppUser;
 import com.pvanshah.sjsuquizapplication.student.util.Preferences;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by avinash on 7/14/17.
@@ -35,6 +45,8 @@ public class LoginActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle(R.string.login_activity);
         mFirebaseAuth = FirebaseAuth.getInstance();
+        FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
+        firebaseConfiguration.configureFirebase();
         if (mFirebaseAuth.getCurrentUser() != null) {
             if(mFirebaseAuth.getCurrentUser().getEmail().equalsIgnoreCase("pavanrajendrakumar.shah@sjsu.edu"))
             {
@@ -78,6 +90,7 @@ public class LoginActivity extends BaseAppCompatActivity {
                             if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email)) {
                                 Preferences.getIns().storeString(Preferences.USER_NAME, username);
                                 Preferences.getIns().storeString(Preferences.USER_EMAIL, email);
+                                saveUserToFirebase(username, email);
                                 dismissDialog();
                                 startActivity(new Intent(LoginActivity.this, AvailableQuizesActivity.class));
                                 LoginActivity.this.finish();
@@ -90,6 +103,54 @@ public class LoginActivity extends BaseAppCompatActivity {
                 }
             };
         }
+    }
+
+    private void saveUserToFirebase(final String username, final String email) {
+        final DatabaseReference userRef = FirebaseConfiguration.getUserRef();
+        userRef.orderByChild("email").equalTo(email)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue() != null) {
+                            List<AppUser> appUsers = collectResponseObjects((Map<String, Object>) dataSnapshot.getValue());
+                            boolean isAlreadyPresent = false;
+                            for (AppUser user : appUsers) {
+                                if (user.getEmail().equals(email)) {
+                                    isAlreadyPresent = true;
+                                }
+                            }
+                            if (!isAlreadyPresent) {
+                                AppUser appUser = new AppUser();
+                                appUser.setUsername(username);
+                                appUser.setEmail(email);
+                                userRef.push().setValue(appUser);
+                            }
+                        } else {
+                            AppUser appUser = new AppUser();
+                            appUser.setUsername(username);
+                            appUser.setEmail(email);
+                            userRef.push().setValue(appUser);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+    }
+
+    private List<AppUser> collectResponseObjects(Map<String, Object> dataSnapshotValue) {
+        List<AppUser> responseObjectList = new ArrayList<>();
+        AppUser responseObject;
+        for (Map.Entry<String, Object> entry : dataSnapshotValue.entrySet()) {
+            Map singleObject = (Map) entry.getValue();
+            String json = new Gson().toJson(singleObject);
+            responseObject = new Gson().fromJson(json, AppUser.class);
+            responseObjectList.add(responseObject);
+        }
+        return responseObjectList;
     }
 
     @Override
