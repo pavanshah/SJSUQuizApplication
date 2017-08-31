@@ -111,6 +111,11 @@ public class LoginActivity extends BaseAppCompatActivity {
                                 appUser.setEmail(email);
                                 userRef.push().setValue(appUser);
                             }
+                        } else {
+                            AppUser appUser = new AppUser();
+                            appUser.setUsername(username);
+                            appUser.setEmail(email);
+                            userRef.push().setValue(appUser);
                         }
                     }
 
