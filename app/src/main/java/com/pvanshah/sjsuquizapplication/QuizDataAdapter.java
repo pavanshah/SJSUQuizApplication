@@ -10,7 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Pavan Shah on 8/1/2017.
@@ -68,7 +73,7 @@ public class QuizDataAdapter extends BaseAdapter {
         View rowView;
 
         rowView = inflater.inflate(R.layout.quiz_list, null);
-        QuizDetails quizDetails = resultList.get(position);
+        final QuizDetails quizDetails = resultList.get(position);
 
         holder.quizTitle =(TextView) rowView.findViewById(R.id.quizTitle);
         Log.d("Quiz", "title "+quizDetails.getQuizTitle());
@@ -83,7 +88,22 @@ public class QuizDataAdapter extends BaseAdapter {
         holder.publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Quiz Published", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Quiz Published "+quizDetails.getQuizTitle(), Toast.LENGTH_SHORT).show();
+                /*User user = new User(userID, userName, userMail, userActive);
+                Map<String, Object> postValues = user.toMap();
+                myRef.child(userID).updateChildren(postValues);*/
+
+                //New Quiz Created
+                DatabaseReference quizRoot = FirebaseConfiguration.getQuizData();
+
+                String quizId = quizDetails.getQuizID();
+                String quizTitle = quizDetails.getQuizTitle();
+                String quizStatus = "Published";
+
+                QuizDetails quizDetails = new QuizDetails(quizId, quizTitle, quizStatus);
+                Map<String, Object> postValues = quizDetails.toMap();
+                quizRoot.child(quizId).updateChildren(postValues);
+
             }
         });
         return rowView;
