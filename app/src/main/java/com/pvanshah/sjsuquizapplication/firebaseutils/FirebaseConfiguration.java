@@ -13,6 +13,7 @@ public class FirebaseConfiguration {
     private static FirebaseDatabase firebaseDatabase;
     private static DatabaseReference databaseRoot;
     private static DatabaseReference quizData;
+    private static DatabaseReference studentData;
     private static DatabaseReference questionsData;
     private static DatabaseReference applicationUsers;
     private static DatabaseReference resultRef;
@@ -28,11 +29,20 @@ public class FirebaseConfiguration {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseRoot = firebaseDatabase.getReference();
         quizData = databaseRoot.child("Quizzes");
+        studentData = databaseRoot.child("users");
         questionsData = databaseRoot.child("Questions");
         applicationUsers = databaseRoot.child("ApplicationUsers");
         resultRef = databaseRoot.child("result");
         userRef = databaseRoot.child("users");
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    public static DatabaseReference getStudentData() {
+        return studentData;
+    }
+
+    public static void setStudentData(DatabaseReference studentData) {
+        FirebaseConfiguration.studentData = studentData;
     }
 
     public static DatabaseReference getApplicationUsers() {

@@ -55,8 +55,8 @@ public class CreateQuiz extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_quiz);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+   /*     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -206,14 +206,19 @@ public class CreateQuiz extends AppCompatActivity {
         {
             //New Quiz Created
             DatabaseReference quizRoot = FirebaseConfiguration.getQuizData();
-            HashMap<String, String> QuizObject = new HashMap<String, String>();
 
             String quizId = uniqueIdGenerator();
+            String quizStatus = "Unpublished";
+
+            QuizDetails quizDetails = new QuizDetails(quizId, quizTitle, quizStatus);
+
+            /*HashMap<String, String> QuizObject = new HashMap<String, String>();
 
             QuizObject.put("quizID", quizId);
             QuizObject.put("quizTitle", quizTitle);
+            QuizObject.put("quizStatus", "unpublished");*/
 
-            quizRoot.push().setValue(QuizObject);
+            quizRoot.child(quizId).setValue(quizDetails);
 
             //---------------------------------------------------
 

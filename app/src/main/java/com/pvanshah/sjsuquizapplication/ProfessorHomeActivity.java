@@ -32,6 +32,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
     private ListView quizlist;
     private ListView studentlist;
     QuizDataAdapter quizDataAdapter;
+    StudentDataAdapter studentDataAdapter;
     TextView tabTitle;
 
     @Override
@@ -40,16 +41,19 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_professor_home);
 
         //All declarations
+        final ArrayList<StudentDetails> studentDetails = new ArrayList<StudentDetails>();
+        studentlist=(ListView) findViewById(R.id.studentlist);
+        studentlist.setVisibility(View.VISIBLE);
+        studentDataAdapter = new StudentDataAdapter(getApplicationContext(), studentDetails);
+        studentlist.setAdapter(studentDataAdapter);
+
         final ArrayList<QuizDetails> quizData = new ArrayList<QuizDetails>();
         quizlist=(ListView) findViewById(R.id.quizList);
         quizlist.setVisibility(View.INVISIBLE);
         quizDataAdapter = new QuizDataAdapter(getApplicationContext(), quizData);
         quizlist.setAdapter(quizDataAdapter);
+
         tabTitle = (TextView) findViewById(R.id.tabTitle);
-
-        studentlist=(ListView) findViewById(R.id.studentList);
-        studentlist.setVisibility(View.INVISIBLE);
-
         addQuiz = (FloatingActionButton) findViewById(R.id.addQuiz);
         addQuiz.setVisibility(View.INVISIBLE);
 
@@ -57,6 +61,32 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Retrive all the data from firebase here
+        final DatabaseReference studentReference = FirebaseConfiguration.getStudentData();
+        studentReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Log.d("student", "data received "+dataSnapshot);
+                studentDetails.clear();
+
+                for(DataSnapshot child : dataSnapshot.getChildren())
+                {
+                    StudentDetails data = child.getValue(StudentDetails.class);
+                    StudentDetails childData = new StudentDetails();
+                    childData.setUsername(data.getUsername());
+                    studentDetails.add(childData);
+                }
+
+                studentDataAdapter.datasetchanged(studentDetails);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
         final DatabaseReference quizReference = FirebaseConfiguration.getQuizData();
         quizReference.addValueEventListener(new ValueEventListener() {
             @Override

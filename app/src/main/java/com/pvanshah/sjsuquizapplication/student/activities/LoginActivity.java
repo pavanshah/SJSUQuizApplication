@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.pvanshah.sjsuquizapplication.ProfessorHomeActivity;
 import com.pvanshah.sjsuquizapplication.R;
 import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
 import com.pvanshah.sjsuquizapplication.student.base.BaseAppCompatActivity;
@@ -47,8 +48,16 @@ public class LoginActivity extends BaseAppCompatActivity {
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
         firebaseConfiguration.configureFirebase();
         if (mFirebaseAuth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, AvailableQuizesActivity.class));
-            LoginActivity.this.finish();
+            if(mFirebaseAuth.getCurrentUser().getEmail().equalsIgnoreCase("pavanrajendrakumar.shah@sjsu.edu"))
+            {
+                startActivity(new Intent(LoginActivity.this, ProfessorHomeActivity.class));
+                LoginActivity.this.finish();
+            }
+            else
+            {
+                startActivity(new Intent(LoginActivity.this, AvailableQuizesActivity.class));
+                LoginActivity.this.finish();
+            }
         } else {
             AppCompatButton gBtn = (AppCompatButton) findViewById(R.id.google_btn);
             gBtn.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +79,12 @@ public class LoginActivity extends BaseAppCompatActivity {
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     if (user != null) {
-                        if (user.getEmail().contains("@sjsu.edu")) {
+                        if(user.getEmail().equalsIgnoreCase("pavanrajendrakumar.shah@sjsu.edu")){
+                            Toast.makeText(LoginActivity.this, "Welcome Professor", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, ProfessorHomeActivity.class));
+                            LoginActivity.this.finish();
+                        }
+                        else if (user.getEmail().contains("@sjsu.edu")) {
                             username = user.getDisplayName();
                             email = user.getEmail();
                             if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(email)) {
