@@ -15,26 +15,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Pavan Shah on 8/1/2017.
  */
 
-public class QuizDataAdapter extends BaseAdapter {
+public class ResultDataAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater=null;
     ArrayList<QuizDetails> resultList = new ArrayList<>();
     Context context;
 
-    public QuizDataAdapter(Context context) {
+    public ResultDataAdapter(Context context) {
         this.context = context;
         inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
-    public QuizDataAdapter(Context context,  ArrayList<QuizDetails> arrayList) {
+    public ResultDataAdapter(Context context, ArrayList<QuizDetails> arrayList) {
         this.context=context;
         resultList=arrayList;
         inflater = ( LayoutInflater )context.
@@ -71,10 +70,10 @@ public class QuizDataAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        QuizDataAdapter.Holder holder = new QuizDataAdapter.Holder();
+        ResultDataAdapter.Holder holder = new ResultDataAdapter.Holder();
         View rowView;
 
-        rowView = inflater.inflate(R.layout.quiz_list, null);
+        rowView = inflater.inflate(R.layout.result_list, null);
         final QuizDetails quizDetails = resultList.get(position);
 
         Log.d("Quiz", "Quiz "+quizDetails);
@@ -107,9 +106,6 @@ public class QuizDataAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "Quiz Published "+quizDetails.getQuizTitle(), Toast.LENGTH_SHORT).show();
-                /*User user = new User(userID, userName, userMail, userActive);
-                Map<String, Object> postValues = user.toMap();
-                myRef.child(userID).updateChildren(postValues);*/
 
                 //New Quiz Created
                 DatabaseReference quizRoot = FirebaseConfiguration.getQuizData();

@@ -40,6 +40,8 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_home);
 
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
+
         //All declarations
         final ArrayList<StudentDetails> studentDetails = new ArrayList<StudentDetails>();
         studentlist=(ListView) findViewById(R.id.studentlist);
@@ -100,6 +102,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                     QuizDetails childData = new QuizDetails();
                     childData.setQuizID(data.getQuizID());
                     childData.setQuizTitle(data.getQuizTitle());
+                    childData.setQuizStatus(data.getQuizStatus());
                     //QuizDetails childData = child.getValue(QuizDetails.class);
                     Log.d("Quiz", "data "+childData.getQuizTitle());
                     quizData.add(childData);
@@ -113,6 +116,22 @@ public class ProfessorHomeActivity extends AppCompatActivity {
 
             }
         });
+
+
+        //Results data
+        final DatabaseReference resultReference = FirebaseConfiguration.getResultRef();
+        resultReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("result", "data received "+dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
 
         addQuiz.setOnClickListener(new View.OnClickListener() {
