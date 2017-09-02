@@ -52,6 +52,7 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
         getSupportActionBar().setTitle(getResources().getString(R.string.title_quiz));
         NetworkStateListener.registerNetworkState(this);
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
@@ -84,16 +85,23 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
         List<Quiz> quizList = new ArrayList<>();
         Quiz quiz;
         //iterate through each quiz
-        for (Map.Entry<String, Object> entry : quizzes.entrySet()) {
-
-            //Get quiz map
-            Map singleQuiz = (Map) entry.getValue();
-            quiz = new Quiz();
-            quiz.setId((String) singleQuiz.get("quizID"));
-            quiz.setTitle((String) singleQuiz.get("quizTitle"));
-            quizList.add(quiz);
+        if(quizzes == null)
+        {
+            return null;
         }
-        return quizList;
+        else
+        {
+            for (Map.Entry<String, Object> entry : quizzes.entrySet()) {
+
+                //Get quiz map
+                Map singleQuiz = (Map) entry.getValue();
+                quiz = new Quiz();
+                quiz.setId((String) singleQuiz.get("quizID"));
+                quiz.setTitle((String) singleQuiz.get("quizTitle"));
+                quizList.add(quiz);
+            }
+            return quizList;
+        }
     }
 
     private void setDataToList(final List quizList) {

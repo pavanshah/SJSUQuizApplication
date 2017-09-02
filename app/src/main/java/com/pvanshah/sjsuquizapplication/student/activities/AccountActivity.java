@@ -44,6 +44,7 @@ public class AccountActivity extends BaseAppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         nameTxt.setText(firebaseAuth.getCurrentUser().getDisplayName());
         emailTxt.setText(firebaseAuth.getCurrentUser().getEmail());
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
         getSupportActionBar().setTitle(R.string.account);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

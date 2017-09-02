@@ -177,6 +177,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
