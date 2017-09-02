@@ -43,12 +43,13 @@ public class LoginActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
         getSupportActionBar().setTitle(R.string.login_activity);
         mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
         firebaseConfiguration.configureFirebase();
         if (mFirebaseAuth.getCurrentUser() != null) {
-            if(mFirebaseAuth.getCurrentUser().getEmail().equalsIgnoreCase("pavanrajendrakumar.shah@sjsu.edu"))
+            if(mFirebaseAuth.getCurrentUser().getEmail().equalsIgnoreCase("pavanrajndrakumar.shah@sjsu.edu"))
             {
                 startActivity(new Intent(LoginActivity.this, ProfessorHomeActivity.class));
                 LoginActivity.this.finish();
@@ -79,7 +80,7 @@ public class LoginActivity extends BaseAppCompatActivity {
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     if (user != null) {
-                        if(user.getEmail().equalsIgnoreCase("pavanrajendrakumar.shah@sjsu.edu")){
+                        if(user.getEmail().equalsIgnoreCase("pavanraendrakumar.shah@sjsu.edu")){
                             Toast.makeText(LoginActivity.this, "Welcome Professor", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this, ProfessorHomeActivity.class));
                             LoginActivity.this.finish();
