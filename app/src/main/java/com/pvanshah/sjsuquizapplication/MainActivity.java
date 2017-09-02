@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
+
         //firebase configured
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
         firebaseConfiguration.configureFirebase();

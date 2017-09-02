@@ -49,7 +49,6 @@ public class QuizDetails {
         this.quizStatus = quizStatus;
     }
 
-
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
