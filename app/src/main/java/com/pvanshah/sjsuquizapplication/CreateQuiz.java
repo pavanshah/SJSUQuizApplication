@@ -57,6 +57,7 @@ public class CreateQuiz extends AppCompatActivity {
 
    /*     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
