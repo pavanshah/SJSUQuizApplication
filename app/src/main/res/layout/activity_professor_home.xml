@@ -5,26 +5,38 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context="com.pvanshah.sjsuquizapplication.ProfessorHomeActivity">
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:padding="20dp">
 
-        <TextView
-            android:id="@+id/message"
+        <ListView
+            android:id="@+id/studentlist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/title_class" />
+            android:layout_height="wrap_content"></ListView>
 
-    </FrameLayout>
+        <ListView
+            android:id="@+id/quizList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/plus"
+            app:elevation="4dp" />
+
+
+    </RelativeLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

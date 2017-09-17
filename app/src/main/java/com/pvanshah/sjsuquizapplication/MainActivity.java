@@ -1,9 +1,12 @@
 package com.pvanshah.sjsuquizapplication;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+
+import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
+import com.pvanshah.sjsuquizapplication.student.activities.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void onFinish() {
 
-                Intent intent = new Intent(MainActivity.this,LoginSignupActivity.class);
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                 MainActivity.this.finish(); //to remove mainactivity from activity stack of back button
                 startActivity(intent);
 
