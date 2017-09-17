@@ -10,17 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
 
 import java.util.ArrayList;
@@ -33,15 +32,14 @@ public class ProfessorHomeActivity extends AppCompatActivity {
     private ListView studentlist;
     QuizDataAdapter quizDataAdapter;
     StudentDataAdapter studentDataAdapter;
-    TextView tabTitle;
+    private int noOfQuestions = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_home);
 
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
-
+        getSupportActionBar().setTitle(getResources().getString(R.string.professor));
         //All declarations
         final ArrayList<StudentDetails> studentDetails = new ArrayList<StudentDetails>();
         studentlist=(ListView) findViewById(R.id.studentlist);
@@ -55,7 +53,6 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         quizDataAdapter = new QuizDataAdapter(getApplicationContext(), quizData);
         quizlist.setAdapter(quizDataAdapter);
 
-        tabTitle = (TextView) findViewById(R.id.tabTitle);
         addQuiz = (FloatingActionButton) findViewById(R.id.addQuiz);
         addQuiz.setVisibility(View.INVISIBLE);
 
@@ -156,19 +153,16 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                     addQuiz.setVisibility(View.INVISIBLE);
                     quizlist.setVisibility(View.INVISIBLE);
                     studentlist.setVisibility(View.VISIBLE);
-                    tabTitle.setText("My Class");
                     return true;
                 case R.id.navigation_dashboard:
                     addQuiz.setVisibility(View.INVISIBLE);
                     quizlist.setVisibility(View.INVISIBLE);
                     studentlist.setVisibility(View.INVISIBLE);
-                    tabTitle.setText("My Analytics");
                     return true;
                 case R.id.navigation_notifications:
                     addQuiz.setVisibility(View.VISIBLE);
                     quizlist.setVisibility(View.VISIBLE);
                     studentlist.setVisibility(View.INVISIBLE);
-                    tabTitle.setText("My Quizzes");
                     return true;
             }
             return false;
@@ -182,17 +176,26 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         // custom dialog
         final Dialog dialog = new Dialog(ProfessorHomeActivity.this);
         dialog.setContentView(R.layout.customtoast);
-        dialog.setTitle("Title...");
 
         //get the spinner from the xml.
-        final Spinner dropdown = (Spinner) dialog.findViewById(R.id.spinner1);
-        //create a list of items for the spinner.
-        Integer[] items = new Integer[]{1,2, 3, 4, 5, 6, 7 , 8 , 9 ,10};
-        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
-        //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        //set the spinners adapter to the previously created one.
-        dropdown.setAdapter(adapter);
+//        final Spinner dropdown = (Spinner) dialog.findViewById(R.id.spinner1);
+//        //create a list of items for the spinner.
+//        Integer[] items = new Integer[]{1,2, 3, 4, 5, 6, 7 , 8 , 9 ,10};
+//        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
+//        //There are multiple variations of this, but this is the basic variant.
+//        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, items);
+//        //set the spinners adapter to the previously created one.
+//        dropdown.setAdapter(adapter);
+
+        MaterialSpinner spinner = (MaterialSpinner) dialog.findViewById(R.id.spinner);
+        spinner.setItems("1","2","3","4","5","6","7","8","9","10");
+
+        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                noOfQuestions = Integer.parseInt(item);
+            }
+        });
 
         final EditText quizTitle = (EditText) dialog.findViewById(R.id.quizName);
 
@@ -203,8 +206,6 @@ public class ProfessorHomeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String title = quizTitle.getText().toString();
-                int noOfQuestions = (int) dropdown.getSelectedItem();
-
                 Intent intent = new Intent(ProfessorHomeActivity.this, CreateQuiz.class);
                 intent.putExtra("quizTitle", title);
                 intent.putExtra("noOfQuestions", noOfQuestions);

@@ -53,6 +53,7 @@ public class QuizActivity extends AppCompatActivity {
 
     public List<Response> responseList = new ArrayList();
     private String id;
+    private int max = 0;
 
     @OnClick(R.id.prev_btn)
     void moveBack() {
@@ -150,7 +151,8 @@ public class QuizActivity extends AppCompatActivity {
         final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         responseObject.setEmail(firebaseAuth.getCurrentUser().getEmail());
         responseObject.setName(firebaseAuth.getCurrentUser().getDisplayName());
-
+        responseObject.setQuizName(getIntent().getStringExtra(TITLE));
+        responseObject.setMax(max+"");
         responseObject.setResponse(responseList);
 
         resultRef.push().setValue(responseObject);
@@ -177,7 +179,6 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
@@ -240,6 +241,7 @@ public class QuizActivity extends AppCompatActivity {
             question = new Gson().fromJson(json, Question.class);
             questionsList.add(question);
         }
+        this.max = questionsList.size();
         return questionsList;
     }
 

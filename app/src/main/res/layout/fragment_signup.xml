@@ -1,8 +1,8 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context="com.pvanshah.sjsuquizapplication.LoginSignupActivity$PlaceholderFragment">
 
@@ -19,9 +19,8 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
                 android:text="@string/first_name"
-                />
+                android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/firstnameEditText"
@@ -38,8 +37,8 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="@string/last_name" />
+                android:text="@string/last_name"
+                android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/lastnameEditText"
@@ -58,8 +57,8 @@
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text="@string/email" />
+            android:text="@string/email"
+            android:textColor="@android:color/black" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/emailEditText"
@@ -76,14 +75,14 @@
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text="@string/username" />
+            android:text="@string/username"
+            android:textColor="@android:color/black" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/useridEditText"
             android:layout_width="match_parent"
-            android:inputType="number"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="number" />
     </LinearLayout>
 
 
@@ -96,25 +95,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/password"
-            android:textColor="@android:color/black"
-            />
+            android:textColor="@android:color/black" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            />
+            android:inputType="textPassword" />
 
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/showPasswordTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text="Show"
             android:layout_gravity="end"
-            />
+            android:layout_margin="10dp"
+            android:text="Show"
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
 
@@ -122,9 +119,8 @@
         android:id="@+id/signupButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#3193D4"
-        android:textColor="@android:color/black"
+        android:background="@color/colorPrimary"
         android:text="@string/signup"
-        />
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

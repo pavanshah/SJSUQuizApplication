@@ -1,16 +1,15 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.pvanshah.sjsuquizapplication.LoginSignupActivity$PlaceholderFragment">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,8 +19,8 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="@string/email" />
+                android:text="@string/email"
+                android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/loginEditText"
@@ -39,25 +38,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/password"
-                android:textColor="@android:color/black"
-                />
+                android:textColor="@android:color/black" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                />
+                android:inputType="textPassword" />
 
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/forgotPasswordTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="Forgot Password"
                 android:layout_gravity="end"
-                />
+                android:layout_margin="10dp"
+                android:text="Forgot Password"
+                android:textColor="@android:color/black" />
         </LinearLayout>
 
 
@@ -65,13 +62,11 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#3193D4"
-            android:textColor="@android:color/black"
+            android:background="@color/colorPrimary"
             android:text="@string/signin"
-            />
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

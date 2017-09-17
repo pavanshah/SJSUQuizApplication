@@ -6,24 +6,34 @@ package com.pvanshah.sjsuquizapplication.student.model;
 
 public class Quiz {
 
-    private String title;
+    private String quizTitle;
 
-    private String id;
+    private String quizId;
+
+    private String quizStatus;
 
 
-    public String getTitle() {
-        return title;
+    public String getQuizTitle() {
+        return quizTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setQuizTitle(String quizTitle) {
+        this.quizTitle = quizTitle;
     }
 
-    public String getId() {
-        return id;
+    public String getQuizId() {
+        return quizId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setQuizId(String quizId) {
+        this.quizId = quizId;
+    }
+
+    public String getQuizStatus() {
+        return quizStatus;
+    }
+
+    public void setQuizStatus(String quizStatus) {
+        this.quizStatus = quizStatus;
     }
 }
