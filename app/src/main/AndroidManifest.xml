@@ -12,37 +12,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-
-        </activity>
-
         <activity
-            android:name=".LoginSignupActivity"
-            android:label="@string/title_activity_login_signup"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".ProfessorHomeActivity"
-            android:label="@string/title_activity_professor_home"/>
-
-        <activity
-            android:name=".CreateQuiz"
-            android:label="@string/title_activity_create_quiz"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity android:name=".student.activities.LoginActivity">
+            android:name=".MainActivity"
+            android:theme="@style/ProfessorTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginSignupActivity"
+            android:label="@string/title_activity_login_signup"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ProfessorHomeActivity"
+            android:label="@string/title_activity_professor_home"
+            android:theme="@style/ProfessorTheme" />
+        <activity
+            android:name=".CreateQuiz"
+            android:label="@string/title_activity_create_quiz"
+            android:theme="@style/ProfessorTheme" />
+        <activity android:name=".student.activities.LoginActivity">
 
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
         <activity android:name=".student.activities.AvailableQuizesActivity" />
-
         <activity android:name=".student.activities.QuizActivity" />
-
         <activity android:name=".student.activities.AccountActivity" />
+
+        <activity
+            android:name=".StudentProfileActivity"
+            android:theme="@style/ProfessorTheme"
+            >
+        </activity>
     </application>
 
 </manifest>
