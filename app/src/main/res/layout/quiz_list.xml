@@ -64,14 +64,27 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/publishQuiz"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Publish"
-            />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/publishQuiz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Publish"
+                />
+
+            <Button
+                android:id="@+id/checkResults"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Check Results"
+                />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

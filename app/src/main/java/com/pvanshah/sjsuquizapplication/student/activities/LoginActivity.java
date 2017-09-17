@@ -43,6 +43,7 @@ public class LoginActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
         getSupportActionBar().setTitle(R.string.login_activity);
         mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();

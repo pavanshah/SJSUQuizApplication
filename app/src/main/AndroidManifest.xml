@@ -8,7 +8,6 @@
         android:name=".student.base.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -23,15 +22,13 @@
         </activity>
         <activity
             android:name=".LoginSignupActivity"
-            android:label="@string/title_activity_login_signup"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProfessorHomeActivity"
-            android:label="@string/title_activity_professor_home"
-            android:theme="@style/ProfessorTheme" />
+            android:theme="@style/ProfessorTheme"
+            />
         <activity
             android:name=".CreateQuiz"
-            android:label="@string/title_activity_create_quiz"
             android:theme="@style/ProfessorTheme" />
         <activity android:name=".student.activities.LoginActivity">
 
@@ -45,11 +42,12 @@
         <activity android:name=".student.activities.AvailableQuizesActivity" />
         <activity android:name=".student.activities.QuizActivity" />
         <activity android:name=".student.activities.AccountActivity" />
-
         <activity
             android:name=".StudentProfileActivity"
-            android:theme="@style/ProfessorTheme"
-            >
+            android:theme="@style/ProfessorTheme"></activity>
+        <activity
+            android:name=".QuizResultActivity"
+            android:theme="@style/ProfessorTheme">
         </activity>
     </application>
 
