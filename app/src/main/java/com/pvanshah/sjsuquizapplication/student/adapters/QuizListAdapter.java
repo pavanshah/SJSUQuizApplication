@@ -1,7 +1,6 @@
 package com.pvanshah.sjsuquizapplication.student.adapters;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.pvanshah.sjsuquizapplication.R;
@@ -34,6 +33,6 @@ public class QuizListAdapter extends AbstractBaseAdapter<Quiz, QuizViewHolder> {
 
     @Override
     public void bindView(QuizViewHolder holder, Quiz item) {
-        holder.getTitleTxt().setText(item.getTitle());
+        holder.getTitleTxt().setText(item.getQuizTitle());
     }
 }

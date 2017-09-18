@@ -39,4 +39,8 @@
     <string name="ok">OK</string>
     <string name="your_score">You have scored :</string>
     <string name="in_this_quiz">in this quiz.</string>
+    <string name="scores">Scores</string>
+    <string name="my_class">My Class</string>
+    <string name="professor">Professor Name</string>
+    <string name="student">Student</string>
 </resources>

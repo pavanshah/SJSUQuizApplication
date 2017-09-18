@@ -52,7 +52,6 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
         getSupportActionBar().setTitle(getResources().getString(R.string.title_quiz));
         NetworkStateListener.registerNetworkState(this);
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
@@ -95,10 +94,12 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
 
                 //Get quiz map
                 Map singleQuiz = (Map) entry.getValue();
-                quiz = new Quiz();
-                quiz.setId((String) singleQuiz.get("quizID"));
-                quiz.setTitle((String) singleQuiz.get("quizTitle"));
-                quizList.add(quiz);
+                if((singleQuiz.get("quizStatus")).equals("Published")) {
+                    quiz = new Quiz();
+                    quiz.setQuizId((String) singleQuiz.get("quizID"));
+                    quiz.setQuizTitle((String) singleQuiz.get("quizTitle"));
+                    quizList.add(quiz);
+                }
             }
             return quizList;
         }
@@ -113,13 +114,13 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long id) {
                 DatabaseReference resultRef = FirebaseConfiguration.getResultRef();
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                resultRef.orderByChild("username")
+                resultRef.orderByChild("email")
                         .equalTo(firebaseAuth.getCurrentUser().getEmail())
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 if (dataSnapshot.getValue() != null) {
-                                    List<ResponseObject> responseObjects = collectResponseObjects((Map<String, Object>) dataSnapshot.getValue(), ((Quiz) quizList.get(position)).getId());
+                                    List<ResponseObject> responseObjects = collectResponseObjects((Map<String, Object>) dataSnapshot.getValue(), ((Quiz) quizList.get(position)).getQuizId());
 
                                     if (responseObjects != null && responseObjects.size() > 0) {
                                         int score = 0;
@@ -143,7 +144,7 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
 
                                                     @Override
                                                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                        startQuiz(((Quiz) quizList.get(position)).getId(), ((Quiz) quizList.get(position)).getTitle());
+                                                        startQuiz(((Quiz) quizList.get(position)).getQuizId(), ((Quiz) quizList.get(position)).getQuizTitle());
                                                         dialog.dismiss();
                                                     }
                                                 })
@@ -155,10 +156,10 @@ public class AvailableQuizesActivity extends BaseAppCompatActivity implements Ne
                                                 })
                                                 .show();
                                     } else {
-                                        startQuiz(((Quiz) quizList.get(position)).getId(), ((Quiz) quizList.get(position)).getTitle());
+                                        startQuiz(((Quiz) quizList.get(position)).getQuizId(), ((Quiz) quizList.get(position)).getQuizTitle());
                                     }
                                 } else {
-                                    startQuiz(((Quiz) quizList.get(position)).getId(), ((Quiz) quizList.get(position)).getTitle());
+                                    startQuiz(((Quiz) quizList.get(position)).getQuizId(), ((Quiz) quizList.get(position)).getQuizTitle());
                                 }
                             }
 

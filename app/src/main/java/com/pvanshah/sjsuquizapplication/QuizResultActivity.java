@@ -10,6 +10,5 @@ public class QuizResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_result);
 
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
     }
 }

@@ -10,6 +10,8 @@ public class ResponseObject {
 
     private String total;
 
+    private String max;
+
     private List<Response> response;
 
     private String email;
@@ -17,6 +19,8 @@ public class ResponseObject {
     private String name;
 
     private String quizID;
+
+    private String quizName;
 
     public String getTotal() {
         return total;
@@ -56,5 +60,21 @@ public class ResponseObject {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getQuizName() {
+        return quizName;
+    }
+
+    public void setQuizName(String quizName) {
+        this.quizName = quizName;
+    }
+
+    public String getMax() {
+        return max;
+    }
+
+    public void setMax(String max) {
+        this.max = max;
     }
 }

@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +56,6 @@ public class CreateQuiz extends AppCompatActivity {
 
    /*     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg));
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
