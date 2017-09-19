@@ -26,6 +26,76 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
 
+        <LinearLayout
+            android:id="@+id/analytics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="My Analytics Dashboard"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                android:layout_margin="15dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total number of students enrolled :"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:id="@+id/studentsEnrolled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total number of quizzes conducted :"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:id="@+id/quizzesConducted"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addQuiz"
             android:layout_width="wrap_content"

@@ -2,23 +2,15 @@ package com.pvanshah.sjsuquizapplication;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by Pavan Shah on 8/1/2017.
@@ -86,11 +78,20 @@ public class StudentDataAdapter extends BaseAdapter {
             public void onClick(View view) {
 
                 Intent intent = new Intent(context,StudentProfileActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("studentEmail", studentDetails.getEmail());
+                intent.putExtra("studentName", studentDetails.getUsername());
                 context.startActivity(intent);
 
             }
         });
 
         return rowView;
+    }
+
+    /**
+     * Created by pavan on 9/18/2017.
+     */
+
+    public static class QuizResults {
     }
 }
