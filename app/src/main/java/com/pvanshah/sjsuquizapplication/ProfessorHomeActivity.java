@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,6 +34,9 @@ public class ProfessorHomeActivity extends AppCompatActivity {
     QuizDataAdapter quizDataAdapter;
     StudentDataAdapter studentDataAdapter;
     private int noOfQuestions = 0;
+    private LinearLayout analyticsView;
+    TextView studentsEnrolled;
+    TextView quizzesConducted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,12 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         addQuiz = (FloatingActionButton) findViewById(R.id.addQuiz);
         addQuiz.setVisibility(View.INVISIBLE);
 
+        analyticsView = (LinearLayout) findViewById(R.id.analytics);
+        analyticsView.setVisibility(View.INVISIBLE);
+
+        studentsEnrolled = (TextView) findViewById(R.id.studentsEnrolled);
+        quizzesConducted = (TextView) findViewById(R.id.quizzesConducted);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -73,9 +83,11 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                     StudentDetails data = child.getValue(StudentDetails.class);
                     StudentDetails childData = new StudentDetails();
                     childData.setUsername(data.getUsername());
+                    childData.setEmail(data.getEmail());
                     studentDetails.add(childData);
                 }
 
+                studentsEnrolled.setText(studentDetails.size()+"");
                 studentDataAdapter.datasetchanged(studentDetails);
             }
 
@@ -105,6 +117,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                     quizData.add(childData);
                 }
 
+                quizzesConducted.setText(quizData.size()+"");
                 quizDataAdapter.datasetchanged(quizData);
             }
 
@@ -113,23 +126,6 @@ public class ProfessorHomeActivity extends AppCompatActivity {
 
             }
         });
-
-
-        //Results data
-        final DatabaseReference resultReference = FirebaseConfiguration.getResultRef();
-        resultReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("result", "data received "+dataSnapshot);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
 
         addQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,16 +148,19 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     addQuiz.setVisibility(View.INVISIBLE);
                     quizlist.setVisibility(View.INVISIBLE);
+                    analyticsView.setVisibility(View.INVISIBLE);
                     studentlist.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.navigation_dashboard:
                     addQuiz.setVisibility(View.INVISIBLE);
                     quizlist.setVisibility(View.INVISIBLE);
+                    analyticsView.setVisibility(View.VISIBLE);
                     studentlist.setVisibility(View.INVISIBLE);
                     return true;
                 case R.id.navigation_notifications:
                     addQuiz.setVisibility(View.VISIBLE);
                     quizlist.setVisibility(View.VISIBLE);
+                    analyticsView.setVisibility(View.INVISIBLE);
                     studentlist.setVisibility(View.INVISIBLE);
                     return true;
             }

@@ -24,7 +24,7 @@ import java.util.Map;
 public class ResultDataAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater=null;
-    ArrayList<QuizDetails> resultList = new ArrayList<>();
+    ArrayList<QuizResultDetails> resultList = new ArrayList<>();
     Context context;
 
     public ResultDataAdapter(Context context) {
@@ -33,7 +33,7 @@ public class ResultDataAdapter extends BaseAdapter {
 
     }
 
-    public ResultDataAdapter(Context context, ArrayList<QuizDetails> arrayList) {
+    public ResultDataAdapter(Context context, ArrayList<QuizResultDetails> arrayList) {
         this.context=context;
         resultList=arrayList;
         inflater = ( LayoutInflater )context.
@@ -56,15 +56,13 @@ public class ResultDataAdapter extends BaseAdapter {
     }
 
     public class Holder {
-        TextView quizTitle;
-        TextView quizID;
-        Button publish;
-        Button checkResults;
+        TextView quizName;
+        TextView quizScore;
     }
 
-    public void datasetchanged(ArrayList<QuizDetails> arrayList) {
+    public void datasetchanged(ArrayList<QuizResultDetails> arrayList) {
         resultList = arrayList;
-        Log.d("Quiz", "Data set changed");
+        Log.d("pavan2", "Data set changed "+resultList);
         notifyDataSetChanged();
     }
 
@@ -74,61 +72,13 @@ public class ResultDataAdapter extends BaseAdapter {
         View rowView;
 
         rowView = inflater.inflate(R.layout.result_list, null);
-        final QuizDetails quizDetails = resultList.get(position);
+        final QuizResultDetails quizResultDetails = resultList.get(position);
 
-        Log.d("Quiz", "Quiz "+quizDetails);
+        holder.quizName =(TextView) rowView.findViewById(R.id.QuizName);
+        holder.quizName.setText(quizResultDetails.getQuizName());
 
-        holder.quizTitle =(TextView) rowView.findViewById(R.id.quizTitle);
-        Log.d("Quiz", "title "+quizDetails.getQuizTitle());
-        holder.quizTitle.setText(quizDetails.getQuizTitle());
-
-        holder.quizID =(TextView) rowView.findViewById(R.id.quizID);
-        holder.quizID.setText(quizDetails.getQuizID());
-        Log.d("Quiz", "id "+quizDetails.getQuizID());
-
-        holder.publish = (Button) rowView.findViewById(R.id.publishQuiz);
-        holder.checkResults = (Button) rowView.findViewById(R.id.checkResults);
-
-        Log.d("Quiz", "here "+quizDetails.getQuizStatus());
-
-        if(quizDetails.getQuizStatus().equalsIgnoreCase("Published"))
-        {
-            holder.publish.setVisibility(View.INVISIBLE);
-            holder.checkResults.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            holder.publish.setVisibility(View.VISIBLE);
-            holder.checkResults.setVisibility(View.INVISIBLE);
-        }
-
-        holder.publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Quiz Published "+quizDetails.getQuizTitle(), Toast.LENGTH_SHORT).show();
-
-                //New Quiz Created
-                DatabaseReference quizRoot = FirebaseConfiguration.getQuizData();
-
-                String quizId = quizDetails.getQuizID();
-                String quizTitle = quizDetails.getQuizTitle();
-                String quizStatus = "Published";
-
-                QuizDetails quizDetails = new QuizDetails(quizId, quizTitle, quizStatus);
-                Map<String, Object> postValues = quizDetails.toMap();
-                quizRoot.child(quizId).updateChildren(postValues);
-
-            }
-        });
-
-        holder.checkResults.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // Intent intent = new Intent(QuizDataAdapter.this, QuizResultActivity.class);
-                Intent intent=new Intent(context,QuizResultActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
+        holder.quizScore =(TextView) rowView.findViewById(R.id.QuizScore);
+        holder.quizScore.setText(quizResultDetails.getTotal());
 
         return rowView;
     }

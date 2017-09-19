@@ -53,7 +53,8 @@
             style="@android:style/TextAppearance.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Option 1" />
+            android:hint="Option 1"
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
 
