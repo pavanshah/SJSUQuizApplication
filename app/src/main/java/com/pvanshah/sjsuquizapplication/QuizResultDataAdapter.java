@@ -18,26 +18,26 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by Pavan Shah on 8/1/2017.
+ * Created by pavan on 9/19/2017.
  */
 
-public class ResultDataAdapter extends BaseAdapter {
+public class QuizResultDataAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater=null;
     ArrayList<QuizResultDetails> resultList = new ArrayList<>();
     Context context;
 
-    public ResultDataAdapter(Context context, ArrayList<QuizResultDetails> arrayList) {
+    public QuizResultDataAdapter(Context context) {
+        this.context = context;
+        inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+    }
+
+    public QuizResultDataAdapter(Context context,  ArrayList<QuizResultDetails> arrayList) {
         this.context=context;
         resultList=arrayList;
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public ResultDataAdapter(Context context) {
-        this.context = context;
-        inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
 
     @Override
@@ -56,30 +56,30 @@ public class ResultDataAdapter extends BaseAdapter {
     }
 
     public class Holder {
-        TextView quizName;
-        TextView quizScore;
+        TextView studentName;
+        TextView quizResult;
     }
 
     public void datasetchanged(ArrayList<QuizResultDetails> arrayList) {
         resultList = arrayList;
-        Log.d("pavan2", "Data set changed "+resultList);
+        Log.d("Quiz", "Data set changed");
         notifyDataSetChanged();
     }
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        ResultDataAdapter.Holder holder = new ResultDataAdapter.Holder();
+        final QuizResultDataAdapter.Holder holder = new QuizResultDataAdapter.Holder();
         View rowView;
 
-        rowView = inflater.inflate(R.layout.result_list, null);
+        rowView = inflater.inflate(R.layout.quizresult_list, null);
+        holder.studentName = (TextView) rowView.findViewById(R.id.studentName);
+        holder.quizResult = (TextView) rowView.findViewById(R.id.quizResult);
+
         final QuizResultDetails quizResultDetails = resultList.get(position);
 
-        holder.quizName =(TextView) rowView.findViewById(R.id.QuizName);
-        holder.quizName.setText(quizResultDetails.getQuizName());
-
-        holder.quizScore =(TextView) rowView.findViewById(R.id.QuizScore);
-        holder.quizScore.setText(quizResultDetails.getTotal());
-
+        holder.studentName.setText(quizResultDetails.getName());
+        holder.quizResult.setText(quizResultDetails.getTotal());
         return rowView;
     }
+
 }

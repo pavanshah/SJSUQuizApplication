@@ -3,6 +3,7 @@ package com.pvanshah.sjsuquizapplication;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +25,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ProfessorHomeActivity extends AppCompatActivity {
 
@@ -31,6 +33,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
     private FloatingActionButton addQuiz;
     private ListView quizlist;
     private ListView studentlist;
+    private ListView quizMinMax;
     QuizDataAdapter quizDataAdapter;
     StudentDataAdapter studentDataAdapter;
     private int noOfQuestions = 0;
@@ -66,10 +69,95 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         studentsEnrolled = (TextView) findViewById(R.id.studentsEnrolled);
         quizzesConducted = (TextView) findViewById(R.id.quizzesConducted);
 
+        final ArrayList<QuizResultDetails> quizMinMaxData = new ArrayList<QuizResultDetails>();
+        quizMinMax = (ListView) findViewById(R.id.quizMinMax);
+        final QuizMinMaxAdapter quizMinMaxAdapter = new QuizMinMaxAdapter(getApplicationContext(), quizMinMaxData);
+        quizMinMax.setAdapter(quizMinMaxAdapter);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Retrive all the data from firebase here
+
+        //Results data
+        /*
+        final DatabaseReference resultReference = FirebaseConfiguration.getResultRef();
+        final ArrayList<QuizResultDetails> resultDetails = new ArrayList<QuizResultDetails>();
+
+        resultReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("pavan2", "data received "+dataSnapshot);
+
+                resultDetails.clear();
+
+                for(DataSnapshot child : dataSnapshot.getChildren())
+                {
+                    QuizResultDetails data = child.getValue(QuizResultDetails.class);
+                    QuizResultDetails childData = new QuizResultDetails();
+
+                    childData.setQuizID(data.getQuizID());
+                    childData.setQuizName(data.getQuizName());
+                    childData.setMax(data.getMax());
+                    childData.setTotal(data.getTotal());
+
+                    resultDetails.add(childData);
+                }
+
+                Log.d("pavan2", "resultDetails "+resultDetails);
+
+                final ArrayList<QuizMinMaxDetails> quizMinMaxDetails = new ArrayList<QuizMinMaxDetails>();
+                HashMap<String, Integer> quizMax = new HashMap<String, Integer>();
+                HashMap<String, Integer> quizMin = new HashMap<String, Integer>();
+
+                for(int i = 0 ; i < resultDetails.size() ; i++)
+                {
+                    int totalMarks = Integer.parseInt(resultDetails.get(i).getTotal());
+
+                    if(quizMax.containsKey(resultDetails.get(i).getQuizID()))
+                    {
+                        if(quizMax.get(resultDetails.get(i).getQuizID()) < totalMarks)
+                        {
+                            quizMax.put(resultDetails.get(i).getQuizID(), totalMarks);
+                        }
+                    }
+                    else
+                    {
+                        quizMax.put(resultDetails.get(i).getQuizID(), totalMarks);
+                    }
+
+
+
+                    if(quizMin.containsKey(resultDetails.get(i).getQuizID()))
+                    {
+                        if(quizMin.get(resultDetails.get(i).getQuizID()) > totalMarks)
+                        {
+                            quizMax.put(resultDetails.get(i).getQuizID(), totalMarks);
+                        }
+                    }
+                    else
+                    {
+                        quizMin.put(resultDetails.get(i).getQuizID(), totalMarks);
+                    }
+
+                }
+
+
+                Log.d("hashmaps", "quizMax "+quizMax);
+                Log.d("hashmaps", "quizMin "+quizMin);
+
+                //quizMinMaxAdapter.datasetchanged(resultDetails);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        */
+
+        //Student Data
         final DatabaseReference studentReference = FirebaseConfiguration.getStudentData();
         studentReference.addValueEventListener(new ValueEventListener() {
             @Override

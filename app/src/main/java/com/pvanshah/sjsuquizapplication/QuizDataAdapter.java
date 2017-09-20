@@ -71,7 +71,7 @@ public class QuizDataAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        QuizDataAdapter.Holder holder = new QuizDataAdapter.Holder();
+        final QuizDataAdapter.Holder holder = new QuizDataAdapter.Holder();
         View rowView;
 
         rowView = inflater.inflate(R.layout.quiz_list, null);
@@ -130,6 +130,8 @@ public class QuizDataAdapter extends BaseAdapter {
             public void onClick(View view) {
                // Intent intent = new Intent(QuizDataAdapter.this, QuizResultActivity.class);
                 Intent intent=new Intent(context,QuizResultActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("quizName", holder.quizTitle.getText());
+                intent.putExtra("quizId", holder.quizID.getText());
                 context.startActivity(intent);
             }
         });
