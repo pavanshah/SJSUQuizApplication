@@ -26,6 +26,8 @@ import com.pvanshah.sjsuquizapplication.firebaseutils.FirebaseConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ProfessorHomeActivity extends AppCompatActivity {
 
@@ -46,7 +48,12 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor_home);
 
-        getSupportActionBar().setTitle(getResources().getString(R.string.professor));
+        Intent intent = getIntent();
+        String professorName = intent.getStringExtra("ProfessorName");
+
+        Log.d("title", "professorName "+professorName);
+        getSupportActionBar().setTitle("My Class");
+
         //All declarations
         final ArrayList<StudentDetails> studentDetails = new ArrayList<StudentDetails>();
         studentlist=(ListView) findViewById(R.id.studentlist);
@@ -69,7 +76,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         studentsEnrolled = (TextView) findViewById(R.id.studentsEnrolled);
         quizzesConducted = (TextView) findViewById(R.id.quizzesConducted);
 
-        final ArrayList<QuizResultDetails> quizMinMaxData = new ArrayList<QuizResultDetails>();
+        final ArrayList<QuizMinMaxDetails> quizMinMaxData = new ArrayList<QuizMinMaxDetails>();
         quizMinMax = (ListView) findViewById(R.id.quizMinMax);
         final QuizMinMaxAdapter quizMinMaxAdapter = new QuizMinMaxAdapter(getApplicationContext(), quizMinMaxData);
         quizMinMax.setAdapter(quizMinMaxAdapter);
@@ -80,7 +87,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         //Retrive all the data from firebase here
 
         //Results data
-        /*
+
         final DatabaseReference resultReference = FirebaseConfiguration.getResultRef();
         final ArrayList<QuizResultDetails> resultDetails = new ArrayList<QuizResultDetails>();
 
@@ -88,7 +95,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("pavan2", "data received "+dataSnapshot);
+                Log.d("minmax", "data received "+dataSnapshot);
 
                 resultDetails.clear();
 
@@ -105,7 +112,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                     resultDetails.add(childData);
                 }
 
-                Log.d("pavan2", "resultDetails "+resultDetails);
+                Log.d("minmax", "resultDetails "+resultDetails);
 
                 final ArrayList<QuizMinMaxDetails> quizMinMaxDetails = new ArrayList<QuizMinMaxDetails>();
                 HashMap<String, Integer> quizMax = new HashMap<String, Integer>();
@@ -115,39 +122,49 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                 {
                     int totalMarks = Integer.parseInt(resultDetails.get(i).getTotal());
 
-                    if(quizMax.containsKey(resultDetails.get(i).getQuizID()))
+                    if(quizMax.containsKey(resultDetails.get(i).getQuizName()))
                     {
-                        if(quizMax.get(resultDetails.get(i).getQuizID()) < totalMarks)
+                        if(quizMax.get(resultDetails.get(i).getQuizName()) < totalMarks)
                         {
-                            quizMax.put(resultDetails.get(i).getQuizID(), totalMarks);
+                            quizMax.put(resultDetails.get(i).getQuizName(), totalMarks);
                         }
                     }
                     else
                     {
-                        quizMax.put(resultDetails.get(i).getQuizID(), totalMarks);
+                        quizMax.put(resultDetails.get(i).getQuizName(), totalMarks);
                     }
 
 
 
-                    if(quizMin.containsKey(resultDetails.get(i).getQuizID()))
+                    if(quizMin.containsKey(resultDetails.get(i).getQuizName()))
                     {
-                        if(quizMin.get(resultDetails.get(i).getQuizID()) > totalMarks)
+                        if(quizMin.get(resultDetails.get(i).getQuizName()) > totalMarks)
                         {
-                            quizMax.put(resultDetails.get(i).getQuizID(), totalMarks);
+                            quizMax.put(resultDetails.get(i).getQuizName(), totalMarks);
                         }
                     }
                     else
                     {
-                        quizMin.put(resultDetails.get(i).getQuizID(), totalMarks);
+                        quizMin.put(resultDetails.get(i).getQuizName(), totalMarks);
                     }
-
                 }
 
 
-                Log.d("hashmaps", "quizMax "+quizMax);
-                Log.d("hashmaps", "quizMin "+quizMin);
+                Log.d("minmax", "quizMax "+quizMax);
+                Log.d("minmax", "quizMin "+quizMin);
 
-                //quizMinMaxAdapter.datasetchanged(resultDetails);
+
+                Iterator it = quizMax.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    QuizMinMaxDetails child = new QuizMinMaxDetails();
+                    child.setQuizName(pair.getKey().toString());
+                    child.setMax(pair.getValue().toString());
+                    child.setMin(quizMin.get(pair.getKey()).toString());
+                    quizMinMaxDetails.add(child);
+                }
+
+                quizMinMaxAdapter.datasetchanged(quizMinMaxDetails);
             }
 
             @Override
@@ -155,7 +172,6 @@ public class ProfessorHomeActivity extends AppCompatActivity {
 
             }
         });
-        */
 
         //Student Data
         final DatabaseReference studentReference = FirebaseConfiguration.getStudentData();
