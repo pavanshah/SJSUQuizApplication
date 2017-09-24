@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,6 +31,10 @@ public class StudentProfileActivity extends AppCompatActivity {
 
         TextView studentName = (TextView) findViewById(R.id.studentName);
         studentName.setText(name);
+
+        final LinearLayout studentProfile = (LinearLayout) findViewById(R.id.studentProfile);
+        final TextView noSubmissions = (TextView) findViewById(R.id.noSubmissions);
+        noSubmissions.setVisibility(View.INVISIBLE);
 
         final ListView resultList = (ListView) findViewById(R.id.quizResultList);
 
@@ -65,6 +70,11 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                 if(resultDetails.size()>0) {
                     resultDataAdapter.datasetchanged(resultDetails);
+                }
+                else
+                {
+                    noSubmissions.setVisibility(View.VISIBLE);
+                    studentProfile.setVisibility(View.INVISIBLE);
                 }
             }
 

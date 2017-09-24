@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class QuizMinMaxAdapter extends BaseAdapter {
 
     private static LayoutInflater inflater=null;
-    ArrayList<QuizResultDetails> resultList = new ArrayList<>();
+    ArrayList<QuizMinMaxDetails> resultList = new ArrayList<>();
     Context context;
 
     public QuizMinMaxAdapter(Context context) {
@@ -26,7 +26,7 @@ public class QuizMinMaxAdapter extends BaseAdapter {
 
     }
 
-    public QuizMinMaxAdapter(Context context,  ArrayList<QuizResultDetails> arrayList) {
+    public QuizMinMaxAdapter(Context context,  ArrayList<QuizMinMaxDetails> arrayList) {
         this.context=context;
         resultList=arrayList;
         inflater = ( LayoutInflater )context.
@@ -55,7 +55,7 @@ public class QuizMinMaxAdapter extends BaseAdapter {
         TextView quizAvg;
     }
 
-    public void datasetchanged(ArrayList<QuizResultDetails> arrayList) {
+    public void datasetchanged(ArrayList<QuizMinMaxDetails> arrayList) {
         resultList = arrayList;
         Log.d("Quiz", "Data set changed");
         notifyDataSetChanged();
@@ -70,13 +70,12 @@ public class QuizMinMaxAdapter extends BaseAdapter {
         holder.quizName = (TextView) rowView.findViewById(R.id.quizName);
         holder.quizMin = (TextView) rowView.findViewById(R.id.quizMin);
         holder.quizMax = (TextView) rowView.findViewById(R.id.quizMax);
-        holder.quizAvg = (TextView) rowView.findViewById(R.id.quizAvg);
 
-        final QuizResultDetails quizResultDetails = resultList.get(position);
+        final QuizMinMaxDetails quizResultDetails = resultList.get(position);
 
         holder.quizName.setText(quizResultDetails.getQuizName());
         holder.quizMax.setText(quizResultDetails.getMax());
-       // holder.quizMin.setText(quizResultDetails.getMin());
+        holder.quizMin.setText(quizResultDetails.getMin());
        // holder.quizAvg.setText(quizResultDetails.getAvg());
 
         return rowView;

@@ -48,7 +48,7 @@ public class LoginActivity extends BaseAppCompatActivity {
         FirebaseConfiguration firebaseConfiguration = new FirebaseConfiguration();
         firebaseConfiguration.configureFirebase();
         if (mFirebaseAuth.getCurrentUser() != null) {
-            if(mFirebaseAuth.getCurrentUser().getEmail().equalsIgnoreCase("shai.venkat@sjsu.edu"))
+            if(mFirebaseAuth.getCurrentUser().getEmail().equalsIgnoreCase("pavanrajendrakumar.shah@sjsu.edu"))
             {
                 startActivity(new Intent(LoginActivity.this, ProfessorHomeActivity.class));
                 LoginActivity.this.finish();
@@ -79,9 +79,12 @@ public class LoginActivity extends BaseAppCompatActivity {
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     FirebaseUser user = firebaseAuth.getCurrentUser();
                     if (user != null) {
-                        if(user.getEmail().equalsIgnoreCase("shai.venkat@sjsu.edu")){
+                        if(user.getEmail().equalsIgnoreCase("pavanrajendrakumar.shah@sjsu.edu")){
                             Toast.makeText(LoginActivity.this, "Welcome Professor", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, ProfessorHomeActivity.class));
+                            Intent intent = new Intent(LoginActivity.this, ProfessorHomeActivity.class);
+                            intent.putExtra("ProfessorName", user.getDisplayName());
+                            startActivity(intent);
+
                             LoginActivity.this.finish();
                         }
                         else if (user.getEmail().contains("@sjsu.edu")) {
